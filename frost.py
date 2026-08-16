@@ -1,24 +1,27 @@
 #!/usr/bin/env python3
 """
-Frost - A real package manager that downloads from GitHub releases.
+Frost - A fast, minimal package manager that downloads from GitHub releases.
 """
 
 import json
 import os
 import sys
 import shutil
-import hashlib
 import time
 import tarfile
 import zipfile
+import gzip
+import bz2
+import subprocess
 import urllib.request
 import urllib.error
 from pathlib import Path
-from typing import Dict, List, Set, Optional
+from typing import Dict, List, Optional
 from dataclasses import dataclass, asdict
 from datetime import datetime
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
-# ─── Colors ───────────────────────────────────────────────────────────────────
+# -- Colors --
 class Colors:
     RESET   = "\033[0m"
     BOLD    = "\033[1m"
@@ -31,27 +34,37 @@ class Colors:
 
 c = Colors
 
-# ─── UI Helpers ───────────────────────────────────────────────────────────────
+# -- Globals --
+QUIET = False
+AUTO_YES = False
+
+# -- UI Helpers --
 def banner():
+    if QUIET:
+        return
     print(f"""
-{c.CYAN}{c.BOLD}  ❄️  frost - package manager
-  ────────────────────────────{c.RESET}
+{c.CYAN}{c.BOLD}  frost - package manager
+  -----------------------{c.RESET}
 """)
 
 def success(msg: str):
-    print(f"  {c.GREEN}✓{c.RESET} {msg}")
+    if not QUIET:
+        print(f"  {c.GREEN}+{c.RESET} {msg}")
 
 def error(msg: str):
-    print(f"  {c.RED}✗{c.RESET} {msg}")
+    print(f"  {c.RED}x{c.RESET} {msg}")
 
 def warn(msg: str):
-    print(f"  {c.YELLOW}!{c.RESET} {msg}")
+    if not QUIET:
+        print(f"  {c.YELLOW}!{c.RESET} {msg}")
 
 def info(msg: str):
-    print(f"  {c.BLUE}i{c.RESET} {msg}")
+    if not QUIET:
+        print(f"  {c.BLUE}i{c.RESET} {msg}")
 
 def step(msg: str):
-    print(f"  {c.CYAN}>{c.RESET} {msg}")
+    if not QUIET:
+        print(f"  {c.CYAN}>{c.RESET} {msg}")
 
 def dim(msg: str) -> str:
     return f"{c.DIM}{msg}{c.RESET}"
@@ -62,17 +75,34 @@ def bold(msg: str) -> str:
 def highlight(msg: str) -> str:
     return f"{c.CYAN}{c.BOLD}{msg}{c.RESET}"
 
-def progress_bar(current: int, total: int, prefix: str = "", suffix: str = "", width: int = 30):
-    """Display a progress bar."""
-    filled = int(width * current / total)
-    bar = f"{c.GREEN}{'█' * filled}{c.DIM}{'░' * (width - filled)}{c.RESET}"
-    percent = int(100 * current / total)
-    print(f"\r  {prefix} [{bar}] {percent}% {suffix}", end="", flush=True)
+def progress_bar(current: int, total: int, prefix: str = "", start_time: float = 0, width: int = 30):
+    filled = int(width * current / total) if total > 0 else 0
+    bar = f"{c.GREEN}{'#' * filled}{c.DIM}{'-' * (width - filled)}{c.RESET}"
+    percent = int(100 * current / total) if total > 0 else 0
+
+    speed = ""
+    eta = ""
+    if start_time > 0 and current > 0:
+        elapsed = time.time() - start_time
+        if elapsed > 0:
+            bps = current / elapsed
+            speed = f"  {format_size(int(bps))}/s"
+            if total > 0 and bps > 0:
+                remaining = (total - current) / bps
+                if remaining < 60:
+                    eta = f"  {remaining:.0f}s"
+                elif remaining < 3600:
+                    eta = f"  {remaining/60:.0f}m {remaining%60:.0f}s"
+                else:
+                    eta = f"  {remaining/3600:.0f}h {(remaining%3600)/60:.0f}m"
+
+    print(f"\r  {prefix} [{bar}] {percent}% {speed}{eta}   ", end="", flush=True)
     if current == total:
         print()
 
 def confirm(prompt: str, default: bool = True) -> bool:
-    """Ask for user confirmation."""
+    if AUTO_YES:
+        return True
     indicator = f"{c.GREEN}Y{c.RESET}/n" if default else f"y/{c.GREEN}N{c.RESET}"
     try:
         response = input(f"  {c.YELLOW}?{c.RESET} {bold(prompt)} [{indicator}]: ").strip().lower()
@@ -83,19 +113,17 @@ def confirm(prompt: str, default: bool = True) -> bool:
     return response in ("y", "yes")
 
 def format_size(size_bytes: int) -> str:
-    """Format bytes into human-readable size."""
     for unit in ['B', 'KB', 'MB', 'GB']:
         if size_bytes < 1024:
             return f"{size_bytes:.1f} {unit}"
         size_bytes /= 1024
     return f"{size_bytes:.1f} TB"
 
-def divider(char: str = "─", length: int = 60):
-    """Print a divider line."""
-    print(f"  {c.DIM}{char * length}{c.RESET}")
+def divider(char: str = "-", length: int = 60):
+    if not QUIET:
+        print(f"  {c.DIM}{char * length}{c.RESET}")
 
 def table_row(*cols, widths: List[int] = None) -> str:
-    """Format a table row."""
     if widths is None:
         widths = [16, 12, 32]
     parts = []
@@ -106,7 +134,7 @@ def table_row(*cols, widths: List[int] = None) -> str:
             parts.append(f"{col:<{w}}")
     return "  ".join(parts)
 
-# ─── Configuration ────────────────────────────────────────────────────────────
+# -- Configuration --
 CONFIG_DIR = Path.home() / ".config" / "frost"
 REGISTRY_FILE = Path(__file__).parent / "registry.json"
 INSTALLED_DB = CONFIG_DIR / "installed.json"
@@ -145,13 +173,11 @@ class Frost:
         self.installed = self._load_installed()
 
     def _ensure_dirs(self):
-        """Create necessary directories."""
         CONFIG_DIR.mkdir(parents=True, exist_ok=True)
         CACHE_DIR.mkdir(parents=True, exist_ok=True)
         BIN_DIR.mkdir(parents=True, exist_ok=True)
 
     def _load_registry(self) -> Dict[str, Package]:
-        """Load package registry."""
         if REGISTRY_FILE.exists():
             with open(REGISTRY_FILE, 'r') as f:
                 data = json.load(f)
@@ -159,7 +185,6 @@ class Frost:
         return {}
 
     def _load_installed(self) -> Dict[str, InstalledPackage]:
-        """Load installed packages database."""
         if INSTALLED_DB.exists():
             with open(INSTALLED_DB, 'r') as f:
                 data = json.load(f)
@@ -171,20 +196,17 @@ class Frost:
         return {}
 
     def _save_installed(self):
-        """Save installed packages database."""
         data = {name: asdict(inst) for name, inst in self.installed.items()}
         INSTALLED_DB.parent.mkdir(parents=True, exist_ok=True)
         with open(INSTALLED_DB, 'w') as f:
             json.dump(data, f, indent=2)
 
     def _log(self, message: str, level: str = "INFO"):
-        """Log a message."""
         timestamp = datetime.now().isoformat()
         with open(LOG_FILE, 'a') as f:
             f.write(f"[{timestamp}] [{level}] {message}\n")
 
     def search(self, query: str) -> List[Package]:
-        """Search for packages."""
         query_lower = query.lower()
         return [
             pkg for name, pkg in self.registry.items()
@@ -192,23 +214,25 @@ class Frost:
         ]
 
     def info(self, package_name: str) -> Optional[Package]:
-        """Get package info."""
         return self.registry.get(package_name)
 
     def list_installed(self) -> List[InstalledPackage]:
-        """List installed packages."""
         return list(self.installed.values())
 
     def _download(self, url: str, dest: Path) -> bool:
-        """Download a file with progress."""
+        if dest.exists() and dest.stat().st_size > 0:
+            step(f"Using cached {dest.name}")
+            return True
+
         try:
             req = urllib.request.Request(url, headers={'User-Agent': 'frost/1.0'})
             response = urllib.request.urlopen(req)
             total_size = int(response.headers.get('content-length', 0))
-            
+
             downloaded = 0
-            block_size = 8192
-            
+            block_size = 65536
+            start_time = time.time()
+
             with open(dest, 'wb') as f:
                 while True:
                     chunk = response.read(block_size)
@@ -217,50 +241,114 @@ class Frost:
                     f.write(chunk)
                     downloaded += len(chunk)
                     if total_size > 0:
-                        progress_bar(downloaded, total_size, prefix="  Downloading")
+                        progress_bar(downloaded, total_size, prefix="  Downloading", start_time=start_time)
                     else:
-                        # Indeterminate progress
-                        dots = (downloaded // 1024) % 40
-                        print(f"\r  Downloading {'.' * dots}{' ' * (40 - dots)}", end="", flush=True)
-            
+                        elapsed = time.time() - start_time
+                        if elapsed > 0:
+                            speed = format_size(int(downloaded / elapsed))
+                            print(f"\r  Downloading {format_size(downloaded)} at {speed}/s   ", end="", flush=True)
+
             print()
             return True
-            
+
         except urllib.error.URLError as e:
             print()
             error(f"Download failed: {e}")
+            if dest.exists():
+                dest.unlink()
             return False
         except Exception as e:
             print()
             error(f"Download failed: {e}")
+            if dest.exists():
+                dest.unlink()
             return False
 
     def _extract(self, archive_path: Path, extract_dir: Path, archive_type: str, inner_dir: str) -> bool:
-        """Extract an archive."""
         try:
             step(f"Extracting {archive_path.name}...")
-            
+
             if archive_type == "tar.gz":
                 with tarfile.open(archive_path, 'r:gz') as tar:
                     tar.extractall(extract_dir)
             elif archive_type == "tar.xz":
                 with tarfile.open(archive_path, 'r:xz') as tar:
                     tar.extractall(extract_dir)
+            elif archive_type == "tar.bz2":
+                with tarfile.open(archive_path, 'r:bz2') as tar:
+                    tar.extractall(extract_dir)
+            elif archive_type == "bzip2":
+                out_path = extract_dir / archive_path.stem
+                with bz2.open(archive_path, 'rb') as f_in:
+                    with open(out_path, 'wb') as f_out:
+                        shutil.copyfileobj(f_in, f_out)
+                os.chmod(out_path, 0o755)
+            elif archive_type == "gzip":
+                out_path = extract_dir / archive_path.stem
+                with gzip.open(archive_path, 'rb') as f_in:
+                    with open(out_path, 'wb') as f_out:
+                        shutil.copyfileobj(f_in, f_out)
+                os.chmod(out_path, 0o755)
             elif archive_type == "zip":
                 with zipfile.ZipFile(archive_path, 'r') as zip_ref:
                     zip_ref.extractall(extract_dir)
+            elif archive_type == "deb":
+                result = subprocess.run(
+                    ['ar', 'x', str(archive_path)],
+                    cwd=str(extract_dir),
+                    capture_output=True
+                )
+                if result.returncode != 0:
+                    error(f"Failed to extract deb: {result.stderr.decode()}")
+                    return False
+                data_tar = extract_dir / "data.tar.xz"
+                if not data_tar.exists():
+                    data_tar = extract_dir / "data.tar.gz"
+                if data_tar.exists():
+                    with tarfile.open(data_tar, 'r:xz' if data_tar.suffix == '.xz' else 'r:gz') as tar:
+                        tar.extractall(extract_dir)
+                    data_tar.unlink(missing_ok=True)
+                    for f in ['control.tar.xz', 'control.tar.gz', 'debian-binary']:
+                        (extract_dir / f).unlink(missing_ok=True)
+            elif archive_type == "bare-binary":
+                dest = extract_dir / archive_path.name
+                shutil.copy2(archive_path, dest)
+                os.chmod(dest, 0o755)
             else:
                 error(f"Unsupported archive type: {archive_type}")
                 return False
-            
+
             return True
-            
+
         except Exception as e:
             error(f"Extraction failed: {e}")
             return False
 
-    def freeze(self, package_name: str, force: bool = False) -> bool:
-        """Install a package (freeze it)."""
+    def _install_deps(self, package_name: str, visited: set = None) -> bool:
+        if visited is None:
+            visited = set()
+        if package_name in visited:
+            return True
+        visited.add(package_name)
+
+        package = self.registry.get(package_name)
+        if not package:
+            return False
+
+        for dep in package.dependencies:
+            if dep not in self.installed:
+                if dep not in self.registry:
+                    warn(f"Dependency '{dep}' not found in registry")
+                    continue
+                info(f"Installing dependency: {dep}")
+                if not self.freeze(dep, force=False, skip_confirm=True):
+                    warn(f"Failed to install dependency: {dep}")
+                    return False
+                self._install_deps(dep, visited)
+
+        return True
+
+    def freeze(self, package_name: str, force: bool = False, skip_confirm: bool = False) -> bool:
         if package_name in self.installed and not force:
             warn(f"{highlight(package_name)} is already frozen")
             return False
@@ -270,62 +358,84 @@ class Frost:
             error(f"Package {highlight(package_name)} not found")
             return False
 
-        # Check dependencies
+        # Auto-install dependencies
         for dep in package.dependencies:
             if dep not in self.installed:
-                warn(f"Missing dependency: {dep}")
-                info(f"Run: frost freeze {dep}")
+                if dep in self.registry:
+                    info(f"Installing dependency: {dep}")
+                    if not self.freeze(dep, force=False, skip_confirm=True):
+                        warn(f"Failed to install dependency: {dep}")
+                else:
+                    warn(f"Missing dependency: {dep}")
 
         # Download
         archive_path = CACHE_DIR / f"{package_name}.{package.archive_type}"
         step(f"Downloading {package.name} v{package.version}...")
-        
+
         if not self._download(package.url, archive_path):
             return False
+
+        # Handle bare-binary
+        if package.archive_type == "bare-binary":
+            step("Installing binary...")
+            dest = BIN_DIR / package.binary
+            shutil.copy2(archive_path, dest)
+            os.chmod(dest, 0o755)
+            archive_path.unlink(missing_ok=True)
+
+            self.installed[package_name] = InstalledPackage(
+                package=package,
+                installed_date=datetime.now().isoformat(),
+                installed_files=[str(dest)]
+            )
+            self._save_installed()
+            success(f"{highlight(package_name)} v{package.version} frozen!")
+            info(f"Binary available at: {dest}")
+            return True
 
         # Extract
         extract_dir = CACHE_DIR / "extract"
         extract_dir.mkdir(exist_ok=True)
-        
+
         if not self._extract(archive_path, extract_dir, package.archive_type, package.extract_dir):
             shutil.rmtree(extract_dir, ignore_errors=True)
             return False
 
-        # Find and copy files
+        # Install files
         step("Installing files...")
         installed_files = []
-        
-        # Check if we need to install the full directory
+
         if getattr(package, 'install_full_dir', False):
-            # Copy the entire extracted directory
             src_dir = extract_dir / package.extract_dir if package.extract_dir else extract_dir
             if not src_dir.exists():
                 src_dir = extract_dir
-            
+
             dest_dir = INSTALL_DIR / "lib" / package.name
             if dest_dir.exists():
                 shutil.rmtree(dest_dir)
             shutil.copytree(src_dir, dest_dir)
             installed_files.append(str(dest_dir))
             info(f"Installed {package.name}/ -> {dest_dir}")
-            
-            # Create symlink for binary in bin
-            binary_src = dest_dir / package.binary
-            if binary_src.exists():
-                symlink_path = BIN_DIR / package.binary
-                if symlink_path.exists() or symlink_path.is_symlink():
-                    symlink_path.unlink()
-                symlink_path.symlink_to(binary_src)
-                os.chmod(binary_src, 0o755)
-                installed_files.append(str(symlink_path))
-                info(f"Linked {package.binary} -> {symlink_path}")
+
+            for bin_name in (package.binary.split(",") if package.binary else []):
+                bin_name = bin_name.strip()
+                if not bin_name:
+                    continue
+                binary_src = dest_dir / bin_name
+                if binary_src.exists():
+                    symlink_path = BIN_DIR / Path(bin_name).name
+                    if symlink_path.exists() or symlink_path.is_symlink():
+                        symlink_path.unlink()
+                    symlink_path.symlink_to(binary_src)
+                    os.chmod(binary_src, 0o755)
+                    installed_files.append(str(symlink_path))
+                    info(f"Linked {Path(bin_name).name} -> {symlink_path}")
         else:
-            # Copy individual files
             for install_file in package.install_files:
                 src = extract_dir / package.extract_dir / install_file
                 if not src.exists():
                     src = extract_dir / install_file
-                
+
                 if src.exists():
                     dest = BIN_DIR / install_file
                     shutil.copy2(src, dest)
@@ -349,9 +459,10 @@ class Frost:
 
         self._log(f"Froze {package_name} v{package.version}")
         success(f"{highlight(package_name)} v{package.version} frozen!")
-        info(f"Binary available at: {BIN_DIR / package.binary}")
-        
-        # Check if in PATH
+        last_bin = [f for f in installed_files if str(BIN_DIR) in f]
+        if last_bin:
+            info(f"Binary available at: {last_bin[-1]}")
+
         if str(BIN_DIR) not in os.environ.get('PATH', ''):
             warn(f"{BIN_DIR} is not in your PATH")
             info(f"Add to ~/.profile: export PATH=\"$HOME/.local/bin:$PATH\"")
@@ -359,14 +470,12 @@ class Frost:
         return True
 
     def melt(self, package_name: str) -> bool:
-        """Remove a package (melt it)."""
         if package_name not in self.installed:
             warn(f"{highlight(package_name)} is not frozen")
             return False
 
         inst = self.installed[package_name]
-        
-        # Remove files
+
         for file_path in inst.installed_files:
             path = Path(file_path)
             if path.is_symlink():
@@ -379,7 +488,6 @@ class Frost:
                 path.unlink()
                 info(f"Removed {path.name}")
 
-        # Remove from database
         del self.installed[package_name]
         self._save_installed()
 
@@ -387,10 +495,50 @@ class Frost:
         success(f"{highlight(package_name)} melted!")
         return True
 
+    def upgrade(self, package_name: str = None) -> bool:
+        if package_name:
+            # Upgrade single package
+            if package_name not in self.installed:
+                error(f"'{package_name}' is not frozen")
+                return False
+            inst = self.installed[package_name]
+            step(f"Upgrading {package_name}...")
+            self.melt(package_name)
+            return self.freeze(package_name, force=True, skip_confirm=True)
+        else:
+            # Upgrade all
+            installed = self.list_installed()
+            if not installed:
+                info("No packages to upgrade")
+                return True
+
+            step(f"Upgrading {len(installed)} packages...")
+            upgraded = 0
+            failed = 0
+            for inst in installed:
+                name = inst.package.name
+                print()
+                if self.freeze(name, force=True, skip_confirm=True):
+                    upgraded += 1
+                else:
+                    failed += 1
+
+            print()
+            info(f"Upgraded: {upgraded}, Failed: {failed}")
+            return True
+
+    def outdated(self) -> List[tuple]:
+        outdated = []
+        for name, inst in self.installed.items():
+            pkg = self.registry.get(name)
+            if pkg and pkg.version != inst.package.version:
+                outdated.append((name, inst.package.version, pkg.version))
+        return outdated
+
 def print_usage():
     print(f"""
-{c.CYAN}{c.BOLD}  ❄️  frost - package manager
-  ────────────────────────────{c.RESET}
+{c.CYAN}{c.BOLD}  frost - package manager
+  -----------------------{c.RESET}
 
 {c.BOLD}  USAGE:{c.RESET}
     frost <command> [package]
@@ -401,36 +549,54 @@ def print_usage():
     {c.CYAN}list{c.RESET}                  List frozen packages
     {c.CYAN}search{c.RESET}  <query>       Search packages
     {c.CYAN}info{c.RESET}    <package>     Show package details
-    {c.CYAN}update{c.RESET}                Update all packages
+    {c.CYAN}upgrade{c.RESET} [package]     Upgrade packages (all or specific)
+    {c.CYAN}outdated{c.RESET}              Show packages with updates available
     {c.CYAN}help{c.RESET}                  Show this help
+
+{c.BOLD}  OPTIONS:{c.RESET}
+    {c.CYAN}-y{c.RESET}, {c.CYAN}--yes{c.RESET}       Skip confirmation prompts
+    {c.CYAN}-q{c.RESET}, {c.CYAN}--quiet{c.RESET}      Minimal output
+    {c.CYAN}--force{c.RESET}             Force re-install
 
 {c.BOLD}  EXAMPLES:{c.RESET}
     {dim("frost search ripgrep")}
-    {dim("frost freeze ripgrep")}
-    {dim("frost list")}
-    {dim("frost info bat")}
+    {dim("frost freeze ripgrep -y")}
+    {dim("frost upgrade ripgrep")}
+    {dim("frost upgrade")}
+    {dim("frost outdated")}
 
 {c.DIM}  Config: ~/.config/frost/{c.RESET}
 """)
 
 def main():
-    if len(sys.argv) < 2:
+    global QUIET, AUTO_YES
+
+    # Parse global flags
+    args = [a for a in sys.argv[1:] if not a.startswith('-')]
+    flags = [a for a in sys.argv[1:] if a.startswith('-')]
+
+    if '-q' in flags or '--quiet' in flags:
+        QUIET = True
+    if '-y' in flags or '--yes' in flags:
+        AUTO_YES = True
+
+    if not args:
         banner()
         print_usage()
         sys.exit(0)
 
     frost = Frost()
-    command = sys.argv[1]
+    command = args[0]
 
     if command in ("help", "--help", "-h"):
         banner()
         print_usage()
 
     elif command == "search":
-        if len(sys.argv) < 3:
+        if len(args) < 2:
             error("Provide a search query")
             sys.exit(1)
-        query = sys.argv[2]
+        query = args[1]
         results = frost.search(query)
         if results:
             print(f"\n  {bold(f'Found {len(results)} packages')}\n")
@@ -438,17 +604,18 @@ def main():
             print(f"  {table_row('NAME', 'VERSION', 'DESCRIPTION')}")
             divider()
             for pkg in sorted(results, key=lambda p: p.name):
-                print(f"  {table_row(pkg.name, pkg.version, pkg.description[:32])}")
+                status = f"{c.GREEN}[frozen]{c.RESET}" if pkg.name in frost.installed else ""
+                print(f"  {table_row(pkg.name, pkg.version, pkg.description[:32])} {status}")
             divider()
             print()
         else:
             warn("No packages found")
 
     elif command == "info":
-        if len(sys.argv) < 3:
+        if len(args) < 2:
             error("Provide a package name")
             sys.exit(1)
-        package_name = sys.argv[2]
+        package_name = args[1]
         package = frost.info(package_name)
         if package:
             is_installed = package_name in frost.installed
@@ -463,6 +630,7 @@ def main():
   {bold('Binary:')}       {package.binary}
   {bold('Platform:')}     {package.platform}
   {bold('Archive:')}      {package.archive_type}
+  {bold('Dependencies:')} {', '.join(package.dependencies) if package.dependencies else 'none'}
 
   {bold('Download URL:')}
     {dim(package.url)}
@@ -471,47 +639,49 @@ def main():
             error(f"Package '{package_name}' not found")
 
     elif command == "freeze":
-        if len(sys.argv) < 3:
+        if len(args) < 2:
             error("Provide a package name")
             sys.exit(1)
-        package_name = sys.argv[2]
-        force = "--force" in sys.argv
+        package_name = args[1]
+        force = "--force" in flags
 
         package = frost.info(package_name)
         if not package:
             error(f"Package '{package_name}' not found")
             sys.exit(1)
 
-        print(f"\n  {bold('Ready to freeze:')} {highlight(package.name)} v{package.version}")
-        print(f"  {dim(package.description)}")
-        print()
-        
-        if not confirm("Proceed?"):
-            info("Cancelled")
-            sys.exit(0)
+        if not AUTO_YES:
+            print(f"\n  {bold('Ready to freeze:')} {highlight(package.name)} v{package.version}")
+            print(f"  {dim(package.description)}")
+            print()
 
-        print()
+            if not confirm("Proceed?"):
+                info("Cancelled")
+                sys.exit(0)
+            print()
+
         frost.freeze(package_name, force)
 
     elif command == "melt":
-        if len(sys.argv) < 3:
+        if len(args) < 2:
             error("Provide a package name")
             sys.exit(1)
-        package_name = sys.argv[2]
+        package_name = args[1]
 
         if package_name not in frost.installed:
             error(f"'{package_name}' is not frozen")
             sys.exit(1)
 
-        inst = frost.installed[package_name]
-        print(f"\n  {bold('Ready to melt:')} {c.RED}{package_name} v{inst.package.version}{c.RESET}")
-        print()
-        
-        if not confirm("Proceed?", default=False):
-            info("Cancelled")
-            sys.exit(0)
+        if not AUTO_YES:
+            inst = frost.installed[package_name]
+            print(f"\n  {bold('Ready to melt:')} {c.RED}{package_name} v{inst.package.version}{c.RESET}")
+            print()
 
-        print()
+            if not confirm("Proceed?", default=False):
+                info("Cancelled")
+                sys.exit(0)
+            print()
+
         frost.melt(package_name)
 
     elif command == "list":
@@ -530,19 +700,28 @@ def main():
             info("Use 'frost freeze <package>' to install")
             print()
 
-    elif command == "update":
-        banner()
-        installed = frost.list_installed()
-        if not installed:
-            info("No packages to update")
-            return
-        
-        step("Checking for updates...")
-        print()
-        for inst in installed:
-            print(f"  {inst.package.name} v{inst.package.version}")
-        print()
-        info("To update, re-freeze: frost freeze <package> --force")
+    elif command == "upgrade":
+        if not AUTO_YES and not QUIET:
+            banner()
+        if len(args) >= 2:
+            frost.upgrade(args[1])
+        else:
+            frost.upgrade()
+
+    elif command == "outdated":
+        outdated = frost.outdated()
+        if outdated:
+            print(f"\n  {bold('Outdated packages')} {dim(f'({len(outdated)} total)')}\n")
+            divider()
+            print(f"  {table_row('NAME', 'CURRENT', 'LATEST')}")
+            divider()
+            for name, current, latest in outdated:
+                print(f"  {table_row(name, current, latest)}")
+            divider()
+            print()
+            info("Run 'frost upgrade' to update all")
+        else:
+            info("All packages are up to date")
 
     else:
         error(f"Unknown command '{command}'")

@@ -12,8 +12,304 @@
     "url": "https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US",
     "archive_type": "tar.xz",
     "extract_dir": "firefox",
-    "install_files": ["firefox"],
+    "install_files": [
+      "firefox"
+    ],
     "install_full_dir": true
+  },
+  "floorp": {
+    "name": "floorp",
+    "version": "12.16.4",
+    "description": "Floorp browser - Firefox-based with vertical tabs",
+    "author": "Floorp Projects",
+    "license": "MPL-2.0",
+    "homepage": "https://github.com/floorp-projects/Floorp",
+    "dependencies": [],
+    "binary": "floorp",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/floorp-projects/Floorp/releases/download/v12.16.4/floorp-linux-x86_64.tar.xz",
+    "archive_type": "tar.xz",
+    "extract_dir": "floorp",
+    "install_files": [
+      "floorp"
+    ],
+    "install_full_dir": true
+  },
+  "neovim": {
+    "name": "neovim",
+    "version": "0.12.4",
+    "description": "Vim-fork focused on extensibility and usability",
+    "author": "Neovim Team",
+    "license": "Apache-2.0",
+    "homepage": "https://neovim.io",
+    "dependencies": [],
+    "binary": "nvim",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/neovim/neovim/releases/download/v0.12.4/nvim-linux-x86_64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "nvim-linux-x86_64",
+    "install_files": [
+      "bin/nvim"
+    ],
+    "install_full_dir": true
+  },
+  "kitty": {
+    "name": "kitty",
+    "version": "0.48.2",
+    "description": "GPU-based terminal emulator",
+    "author": "Kovid Goyal",
+    "license": "GPL-3.0",
+    "homepage": "https://sw.kovidgoyal.net/kitty",
+    "dependencies": [],
+    "binary": "kitty",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/kovidgoyal/kitty/releases/download/v0.48.2/kitty-0.48.2-x86_64.txz",
+    "archive_type": "tar.xz",
+    "extract_dir": "kitty",
+    "install_files": [
+      "bin/kitty"
+    ],
+    "install_full_dir": true
+  },
+  "tabby": {
+    "name": "tabby",
+    "version": "1.0.235",
+    "description": "A modern terminal for the 21st century",
+    "author": "Eugeny",
+    "license": "MIT",
+    "homepage": "https://tabby.sh",
+    "dependencies": [],
+    "binary": "tabby",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/Eugeny/tabby/releases/download/v1.0.235/tabby-1.0.235-linux-x64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "tabby",
+    "install_files": [
+      "tabby"
+    ],
+    "install_full_dir": true
+  },
+  "anki": {
+    "name": "anki",
+    "version": "26.08.1",
+    "description": "Powerful spaced repetition flashcard program",
+    "author": "Ankitects",
+    "license": "GPL-3.0",
+    "homepage": "https://apps.ankiweb.net",
+    "dependencies": [],
+    "binary": "anki",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/ankitects/anki/releases/download/26.08.1/anki-26.08.1-linux-x86_64.tar.xz",
+    "archive_type": "tar.xz",
+    "extract_dir": "anki-26.08.1-linux-x86_64",
+    "install_files": [
+      "anki"
+    ],
+    "install_full_dir": true
+  },
+  "fastfetch": {
+    "name": "fastfetch",
+    "version": "2.67.1",
+    "description": "Fast, simple and pervasive system information tool",
+    "author": "Fastfetch Team",
+    "license": "MIT",
+    "homepage": "https://github.com/fastfetch-cli/fastfetch",
+    "dependencies": [],
+    "binary": "fastfetch-linux-amd64",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/fastfetch-cli/fastfetch/releases/download/2.67.1/fastfetch-linux-amd64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "fastfetch-linux-amd64",
+    "install_files": [
+      "fastfetch-linux-amd64"
+    ]
+  },
+  "lsd": {
+    "name": "lsd",
+    "version": "1.2.0",
+    "description": "Ls with colors, icons, tree-view and more",
+    "author": "lsd-rs",
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/lsd-rs/lsd",
+    "dependencies": [],
+    "binary": "lsd",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/lsd-rs/lsd/releases/download/v1.2.0/lsd-v1.2.0-x86_64-unknown-linux-gnu.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "lsd-v1.2.0-x86_64-unknown-linux-gnu",
+    "install_files": [
+      "lsd"
+    ]
+  },
+  "bottom": {
+    "name": "bottom",
+    "version": "0.14.8",
+    "description": "Cross-platform graphical process/system monitor",
+    "author": "Clement Tsang",
+    "license": "MIT",
+    "homepage": "https://github.com/ClementTsang/bottom",
+    "dependencies": [],
+    "binary": "btm",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/ClementTsang/bottom/releases/download/0.14.8/bottom_x86_64-unknown-linux-gnu.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "bottom_x86_64-unknown-linux-gnu",
+    "install_files": [
+      "btm"
+    ]
+  },
+  "procs": {
+    "name": "procs",
+    "version": "0.14.12",
+    "description": "A modern replacement for ps",
+    "author": "dalance",
+    "license": "MIT",
+    "homepage": "https://github.com/dalance/procs",
+    "dependencies": [],
+    "binary": "procs",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/dalance/procs/releases/download/v0.14.12/procs-v0.14.12-x86_64-linux.zip",
+    "archive_type": "zip",
+    "extract_dir": "",
+    "install_files": [
+      "procs"
+    ]
+  },
+  "hexyl": {
+    "name": "hexyl",
+    "version": "0.17.0",
+    "description": "A command-line hex viewer",
+    "author": "sharkdp",
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/sharkdp/hexyl",
+    "dependencies": [],
+    "binary": "hexyl",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/sharkdp/hexyl/releases/download/v0.17.0/hexyl-v0.17.0-x86_64-unknown-linux-gnu.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "hexyl-v0.17.0-x86_64-unknown-linux-gnu",
+    "install_files": [
+      "hexyl"
+    ]
+  },
+  "pastel": {
+    "name": "pastel",
+    "version": "0.12.0",
+    "description": "A command-line tool to generate, manipulate and parse colors",
+    "author": "sharkdp",
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/sharkdp/pastel",
+    "dependencies": [],
+    "binary": "pastel",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/sharkdp/pastel/releases/download/v0.12.0/pastel-v0.12.0-x86_64-unknown-linux-gnu.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "pastel-v0.12.0-x86_64-unknown-linux-gnu",
+    "install_files": [
+      "pastel"
+    ]
+  },
+  "sd": {
+    "name": "sd",
+    "version": "1.1.0",
+    "description": "Intuitive find & replace CLI tool",
+    "author": "chmln",
+    "license": "MIT",
+    "homepage": "https://github.com/chmln/sd",
+    "dependencies": [],
+    "binary": "sd",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/chmln/sd/releases/download/v1.1.0/sd-v1.1.0-x86_64-unknown-linux-gnu.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "sd-v1.1.0-x86_64-unknown-linux-gnu",
+    "install_files": [
+      "sd"
+    ]
+  },
+  "fzf": {
+    "name": "fzf",
+    "version": "0.74.3",
+    "description": "A command-line fuzzy finder",
+    "author": "Junegunn Choi",
+    "license": "MIT",
+    "homepage": "https://github.com/junegunn/fzf",
+    "dependencies": [],
+    "binary": "fzf",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/junegunn/fzf/releases/download/v0.74.3/fzf-0.74.3-linux_amd64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "fzf"
+    ]
+  },
+  "shellcheck": {
+    "name": "shellcheck",
+    "version": "0.11.0",
+    "description": "A static analysis tool for shell scripts",
+    "author": "koalaman",
+    "license": "GPL-3.0",
+    "homepage": "https://www.shellcheck.net",
+    "dependencies": [],
+    "binary": "shellcheck",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/koalaman/shellcheck/releases/download/v0.11.0/shellcheck-v0.11.0.linux.x86_64.tar.xz",
+    "archive_type": "tar.xz",
+    "extract_dir": "shellcheck-v0.11.0",
+    "install_files": [
+      "shellcheck"
+    ]
+  },
+  "d2": {
+    "name": "d2",
+    "version": "0.7.1",
+    "description": "A modern diagram scripting language",
+    "author": "terrastruct",
+    "license": "BSD-3-Clause",
+    "homepage": "https://d2lang.com",
+    "dependencies": [],
+    "binary": "d2",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/terrastruct/d2/releases/download/v0.7.1/d2-v0.7.1-linux-amd64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "d2-v0.7.1-linux-amd64",
+    "install_files": [
+      "d2"
+    ]
+  },
+  "xsv": {
+    "name": "xsv",
+    "version": "0.13.0",
+    "description": "A fast CSV command line toolkit",
+    "author": "BurntSushi",
+    "license": "MIT",
+    "homepage": "https://github.com/BurntSushi/xsv",
+    "dependencies": [],
+    "binary": "xsv",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/BurntSushi/xsv/releases/download/0.13.0/xsv-0.13.0-x86_64-unknown-linux-musl.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "xsv-0.13.0-x86_64-unknown-linux-musl",
+    "install_files": [
+      "xsv"
+    ]
+  },
+  "angle-grinder": {
+    "name": "angle-grinder",
+    "version": "0.19.6",
+    "description": "Slice and dice logs on the command line",
+    "author": "rcoh",
+    "license": "MIT",
+    "homepage": "https://github.com/rcoh/angle-grinder",
+    "dependencies": [],
+    "binary": "agrind",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/rcoh/angle-grinder/releases/download/v0.19.6/angle_grinder_linux_amd64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "agrind"
+    ]
   },
   "ripgrep": {
     "name": "ripgrep",
@@ -28,7 +324,9 @@
     "url": "https://github.com/BurntSushi/ripgrep/releases/download/14.1.0/ripgrep-14.1.0-x86_64-unknown-linux-musl.tar.gz",
     "archive_type": "tar.gz",
     "extract_dir": "ripgrep-14.1.0-x86_64-unknown-linux-musl",
-    "install_files": ["rg"]
+    "install_files": [
+      "rg"
+    ]
   },
   "fd": {
     "name": "fd",
@@ -43,7 +341,9 @@
     "url": "https://github.com/sharkdp/fd/releases/download/v10.1.0/fd-v10.1.0-x86_64-unknown-linux-musl.tar.gz",
     "archive_type": "tar.gz",
     "extract_dir": "fd-v10.1.0-x86_64-unknown-linux-musl",
-    "install_files": ["fd"]
+    "install_files": [
+      "fd"
+    ]
   },
   "bat": {
     "name": "bat",
@@ -58,7 +358,9 @@
     "url": "https://github.com/sharkdp/bat/releases/download/v0.24.0/bat-v0.24.0-x86_64-unknown-linux-musl.tar.gz",
     "archive_type": "tar.gz",
     "extract_dir": "bat-v0.24.0-x86_64-unknown-linux-musl",
-    "install_files": ["bat"]
+    "install_files": [
+      "bat"
+    ]
   },
   "exa": {
     "name": "exa",
@@ -73,7 +375,9 @@
     "url": "https://github.com/ogham/exa/releases/download/v0.10.1/exa-linux-x86_64-musl.zip",
     "archive_type": "zip",
     "extract_dir": "",
-    "install_files": ["bin/exa"]
+    "install_files": [
+      "bin/exa"
+    ]
   },
   "delta": {
     "name": "delta",
@@ -88,7 +392,9 @@
     "url": "https://github.com/dandavison/delta/releases/download/0.16.5/delta-0.16.5-x86_64-unknown-linux-musl.tar.gz",
     "archive_type": "tar.gz",
     "extract_dir": "delta-0.16.5-x86_64-unknown-linux-musl",
-    "install_files": ["delta"]
+    "install_files": [
+      "delta"
+    ]
   },
   "zoxide": {
     "name": "zoxide",
@@ -103,7 +409,9 @@
     "url": "https://github.com/ajeetdsouza/zoxide/releases/download/v0.9.4/zoxide-0.9.4-x86_64-unknown-linux-musl.tar.gz",
     "archive_type": "tar.gz",
     "extract_dir": "zoxide-0.9.4-x86_64-unknown-linux-musl",
-    "install_files": ["zoxide"]
+    "install_files": [
+      "zoxide"
+    ]
   },
   "starship": {
     "name": "starship",
@@ -111,14 +419,16 @@
     "description": "A minimal, blazing-fast, and infinitely customizable prompt",
     "author": "starship",
     "license": "ISC",
-    "homepage": "https://github.com/starship/starship",
+    "homepage": "https://starship.rs",
     "dependencies": [],
     "binary": "starship",
     "platform": "linux-x86_64",
     "url": "https://github.com/starship/starship/releases/download/v1.19.0/starship-x86_64-unknown-linux-musl.tar.gz",
     "archive_type": "tar.gz",
     "extract_dir": "",
-    "install_files": ["starship"]
+    "install_files": [
+      "starship"
+    ]
   },
   "hyperfine": {
     "name": "hyperfine",
@@ -133,7 +443,9 @@
     "url": "https://github.com/sharkdp/hyperfine/releases/download/v1.18.0/hyperfine-1.18.0-x86_64-unknown-linux-musl.tar.gz",
     "archive_type": "tar.gz",
     "extract_dir": "hyperfine-1.18.0-x86_64-unknown-linux-musl",
-    "install_files": ["hyperfine"]
+    "install_files": [
+      "hyperfine"
+    ]
   },
   "duf": {
     "name": "duf",
@@ -148,7 +460,9 @@
     "url": "https://github.com/muesli/duf/releases/download/v0.8.1/duf_0.8.1_linux_amd64.tar.gz",
     "archive_type": "tar.gz",
     "extract_dir": "",
-    "install_files": ["duf"]
+    "install_files": [
+      "duf"
+    ]
   },
   "dust": {
     "name": "dust",
@@ -163,7 +477,9 @@
     "url": "https://github.com/bootandy/dust/releases/download/v1.1.1/dust-v1.1.1-x86_64-unknown-linux-musl.tar.gz",
     "archive_type": "tar.gz",
     "extract_dir": "dust-v1.1.1-x86_64-unknown-linux-musl",
-    "install_files": ["dust"]
+    "install_files": [
+      "dust"
+    ]
   },
   "grex": {
     "name": "grex",
@@ -178,7 +494,9 @@
     "url": "https://github.com/pemistahl/grex/releases/download/v1.4.1/grex-v1.4.1-x86_64-unknown-linux-musl.tar.gz",
     "archive_type": "tar.gz",
     "extract_dir": "grex-v1.4.1-x86_64-unknown-linux-musl",
-    "install_files": ["grex"]
+    "install_files": [
+      "grex"
+    ]
   },
   "tokei": {
     "name": "tokei",
@@ -193,6 +511,1243 @@
     "url": "https://github.com/XAMPPRocky/tokei/releases/download/v13.0.0-alpha.8/tokei-x86_64-unknown-linux-musl.tar.gz",
     "archive_type": "tar.gz",
     "extract_dir": "",
-    "install_files": ["tokei"]
+    "install_files": [
+      "tokei"
+    ]
+  },
+  "bat-extras": {
+    "name": "bat-extras",
+    "version": "2024.10.20",
+    "description": "Scripts that integrate bat with other tools",
+    "author": "eth-p",
+    "license": "MIT",
+    "homepage": "https://github.com/eth-p/bat-extras",
+    "dependencies": [
+      "bat"
+    ],
+    "binary": "batgrep",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/eth-p/bat-extras/releases/download/2024.10.20/bat-extras-2024.10.20-linux-x86_64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "bat-extras-2024.10.20-linux-x86_64",
+    "install_files": [
+      "bin/batgrep",
+      "bin/batdiff",
+      "bin/batwatch"
+    ]
+  },
+  "doggo": {
+    "name": "doggo",
+    "version": "1.0.5",
+    "description": "A modern DNS client for the command line",
+    "author": "mr-karan",
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/mr-karan/doggo",
+    "dependencies": [],
+    "binary": "doggo",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/mr-karan/doggo/releases/download/v1.0.5/doggo_v1.0.5_linux_amd64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "doggo"
+    ]
+  },
+  "tldr": {
+    "name": "tldr",
+    "version": "1.7.0",
+    "description": "Simplified and community-driven man pages",
+    "author": "dbrgn",
+    "license": "AGPL-3.0",
+    "homepage": "https://github.com/tealdeer-rs/tealdeer",
+    "dependencies": [],
+    "binary": "tealdeer",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/tealdeer-rs/tealdeer/releases/download/v1.7.0/tealdeer-linux-x86_64-musl",
+    "archive_type": "bare-binary",
+    "extract_dir": "",
+    "install_files": [
+      "tealdeer"
+    ]
+  },
+  "btop": {
+    "name": "btop",
+    "version": "1.4.3",
+    "description": "Resource monitor - best looking system monitor",
+    "author": "aristocratos",
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/aristocratos/btop",
+    "dependencies": [],
+    "binary": "btop",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/aristocratos/btop/releases/download/v1.4.3/btop-x86_64-linux-musl.tbz",
+    "archive_type": "tar.bz2",
+    "extract_dir": "btop",
+    "install_files": [
+      "bin/btop"
+    ]
+  },
+  "glow": {
+    "name": "glow",
+    "version": "2.0.0",
+    "description": "Render markdown on the CLI",
+    "author": "charmbracelet",
+    "license": "MIT",
+    "homepage": "https://github.com/charmbracelet/glow",
+    "dependencies": [],
+    "binary": "glow",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/charmbracelet/glow/releases/download/v2.0.0/glow_2.0.0_Linux_x86_64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "glow"
+    ]
+  },
+  "vhs": {
+    "name": "vhs",
+    "version": "0.7.2",
+    "description": "Your CLI home video recorder",
+    "author": "charmbracelet",
+    "license": "MIT",
+    "homepage": "https://github.com/charmbracelet/vhs",
+    "dependencies": [],
+    "binary": "vhs",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/charmbracelet/vhs/releases/download/v0.7.2/vhs_0.7.2_Linux_x86_64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "vhs"
+    ]
+  },
+  "soft-serve": {
+    "name": "soft-serve",
+    "version": "0.8.1",
+    "description": "A self-hosted Git server for the terminal",
+    "author": "charmbracelet",
+    "license": "MIT",
+    "homepage": "https://github.com/charmbracelet/soft-serve",
+    "dependencies": [],
+    "binary": "soft",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/charmbracelet/soft-serve/releases/download/v0.8.1/soft_0.8.1_Linux_x86_64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "soft"
+    ]
+  },
+  "lazygit": {
+    "name": "lazygit",
+    "version": "0.48.0",
+    "description": "Simple terminal UI for git commands",
+    "author": "jesseduffield",
+    "license": "MIT",
+    "homepage": "https://github.com/jesseduffield/lazygit",
+    "dependencies": [],
+    "binary": "lazygit",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/jesseduffield/lazygit/releases/download/v0.48.0/lazygit_0.48.0_Linux_x86_64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "lazygit"
+    ]
+  },
+  "lazydocker": {
+    "name": "lazydocker",
+    "version": "0.25.1",
+    "description": "Simple terminal UI for docker and docker-compose",
+    "author": "jesseduffield",
+    "license": "MIT",
+    "homepage": "https://github.com/jesseduffield/lazydocker",
+    "dependencies": [],
+    "binary": "lazydocker",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/jesseduffield/lazydocker/releases/download/v0.25.1/lazydocker_0.25.1_Linux_x86_64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "lazydocker"
+    ]
+  },
+  "broot": {
+    "name": "broot",
+    "version": "1.44.5",
+    "description": "A new way to see and navigate directory trees",
+    "author": "Canop",
+    "license": "MIT",
+    "homepage": "https://github.com/Canop/broot",
+    "dependencies": [],
+    "binary": "broot",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/Canop/broot/releases/download/v1.44.5/broot_1.44.5.zip",
+    "archive_type": "zip",
+    "extract_dir": "",
+    "install_files": [
+      "broot"
+    ]
+  },
+  "navi": {
+    "name": "navi",
+    "version": "2.22.1",
+    "description": "An interactive cheatsheet tool for the command-line",
+    "author": "denisidoro",
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/denisidoro/navi",
+    "dependencies": [],
+    "binary": "navi",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/denisidoro/navi/releases/download/v2.22.1/navi-v2.22.1-x86_64-unknown-linux-musl.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "navi-v2.22.1-x86_64-unknown-linux-musl",
+    "install_files": [
+      "navi"
+    ]
+  },
+  "hadolint": {
+    "name": "hadolint",
+    "version": "2.12.0",
+    "description": "Dockerfile linter that helps build best practices",
+    "author": "hadolint",
+    "license": "GPL-3.0",
+    "homepage": "https://github.com/hadolint/hadolint",
+    "dependencies": [],
+    "binary": "hadolint",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/hadolint/hadolint/releases/download/v2.12.0/hadolint-Linux-x86_64",
+    "archive_type": "bare-binary",
+    "extract_dir": "",
+    "install_files": [
+      "hadolint-Linux-x86_64"
+    ]
+  },
+  "hey": {
+    "name": "hey",
+    "version": "0.1.4",
+    "description": "HTTP load generator, similar to ab but with modern features",
+    "author": "rakyll",
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/rakyll/hey",
+    "dependencies": [],
+    "binary": "hey",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/rakyll/hey/releases/download/v0.1.4/hey_linux_amd64",
+    "archive_type": "bare-binary",
+    "extract_dir": "",
+    "install_files": [
+      "hey_linux_amd64"
+    ]
+  },
+  "restic": {
+    "name": "restic",
+    "version": "0.17.1",
+    "description": "Fast, secure, efficient backup program",
+    "author": "restic",
+    "license": "BSD-2-Clause",
+    "homepage": "https://restic.net",
+    "dependencies": [],
+    "binary": "restic",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/restic/restic/releases/download/v0.17.1/restic_0.17.1_linux_amd64.bz2",
+    "archive_type": "bzip2",
+    "extract_dir": "",
+    "install_files": [
+      "restic_0.17.1_linux_amd64"
+    ]
+  },
+  "rclone": {
+    "name": "rclone",
+    "version": "1.68.2",
+    "description": "Sync files and directories to and from cloud storage",
+    "author": "rclone",
+    "license": "MIT",
+    "homepage": "https://rclone.org",
+    "dependencies": [],
+    "binary": "rclone",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/rclone/rclone/releases/download/v1.68.2/rclone-v1.68.2-linux-amd64.zip",
+    "archive_type": "zip",
+    "extract_dir": "rclone-v1.68.2-linux-amd64",
+    "install_files": [
+      "rclone"
+    ]
+  },
+  "yq": {
+    "name": "yq",
+    "version": "4.44.3",
+    "description": "A lightweight command-line YAML/JSON/XML processor",
+    "author": "mikefarah",
+    "license": "MIT",
+    "homepage": "https://github.com/mikefarah/yq",
+    "dependencies": [],
+    "binary": "yq",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/mikefarah/yq/releases/download/v4.44.3/yq_linux_amd64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "yq_linux_amd64"
+    ]
+  },
+  "chezmoi": {
+    "name": "chezmoi",
+    "version": "2.60.1",
+    "description": "Manage your dotfiles across multiple machines",
+    "author": "twpayne",
+    "license": "MIT",
+    "homepage": "https://github.com/twpayne/chezmoi",
+    "dependencies": [],
+    "binary": "chezmoi",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/twpayne/chezmoi/releases/download/v2.60.1/chezmoi_2.60.1_linux_amd64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "chezmoi"
+    ]
+  },
+  "crawl": {
+    "name": "crawl",
+    "version": "0.32.1",
+    "description": "Roguelike dungeon exploration game",
+    "author": "crawl",
+    "license": "BSD-3-Clause",
+    "homepage": "https://crawl.develz.org",
+    "dependencies": [],
+    "binary": "crawl",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/crawl/crawl/releases/download/0.32.1/crawl-0.32.1-linux-x86_64.tar.xz",
+    "archive_type": "tar.xz",
+    "extract_dir": "crawl-0.32.1-linux-x86_64",
+    "install_files": [
+      "crawl"
+    ]
+  },
+  "minetest": {
+    "name": "minetest",
+    "version": "5.10.0",
+    "description": "An open source voxel game engine",
+    "author": "minetest",
+    "license": "LGPL-2.1",
+    "homepage": "https://www.minetest.net",
+    "dependencies": [],
+    "binary": "minetest",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/minetest/minetest/releases/download/5.10.0/minetest-5.10.0-linux-x86_64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "minetest-5.10.0-linux-x86_64",
+    "install_files": [
+      "bin/minetest"
+    ],
+    "install_full_dir": true
+  },
+  "citra": {
+    "name": "citra",
+    "version": "2024.05.30",
+    "description": "Nintendo 3DS emulator (archived)",
+    "author": "citra-emu",
+    "license": "GPL-2.0",
+    "homepage": "https://github.com/citra-emu/citra",
+    "dependencies": [],
+    "binary": "citra",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/citra-emu/citra/releases/download/nightly-2044/citra-nightly-2044-linux.tar.xz",
+    "archive_type": "tar.xz",
+    "extract_dir": "citra-nightly-2044-linux",
+    "install_files": [
+      "bin/citra"
+    ]
+  },
+  "rpcs3": {
+    "name": "rpcs3",
+    "version": "0.0.33",
+    "description": "PlayStation 3 emulator",
+    "author": "RPCS3",
+    "license": "GPL-2.0",
+    "homepage": "https://rpcs3.net",
+    "dependencies": [],
+    "binary": "rpcs3",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/RPCS3/rpcs3/releases/download/v0.0.33/RPCS3_RPCS3-v0.0.33_linux64.AppImage",
+    "archive_type": "appimage",
+    "extract_dir": "",
+    "install_files": [
+      "rpcs3"
+    ]
+  },
+  "yuzu": {
+    "name": "yuzu",
+    "version": "2024.02.28",
+    "description": "Nintendo Switch emulator (archived)",
+    "author": "yuzu-emu",
+    "license": "GPL-3.0",
+    "homepage": "https://github.com/yuzu-emu/yuzu",
+    "dependencies": [],
+    "binary": "yuzu",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/yuzu-emu/yuzu-mainline/releases/download/mainline-0-1734/mainline-0-1734.AppImage",
+    "archive_type": "appimage",
+    "extract_dir": "",
+    "install_files": [
+      "yuzu"
+    ]
+  },
+  "ryujinx": {
+    "name": "ryujinx",
+    "version": "1.2.77",
+    "description": "Nintendo Switch emulator (archived)",
+    "author": "Ryubing",
+    "license": "MIT",
+    "homepage": "https://github.com/Ryubing/Ryujinx",
+    "dependencies": [],
+    "binary": "Ryujinx",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/Ryubing/Ryujinx/releases/download/1.2.77/ryujinx-1.2.77-linux-x64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "Ryujinx"
+    ]
+  },
+  "noto-fonts-emoji": {
+    "name": "noto-fonts-emoji",
+    "version": "2.048",
+    "description": "Google Noto Color Emoji font",
+    "author": "googlefonts",
+    "license": "OFL-1.1",
+    "homepage": "https://github.com/googlefonts/noto-emoji",
+    "dependencies": [],
+    "binary": "NotoColorEmoji.ttf",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/googlefonts/noto-emoji/raw/main/fonts/NotoColorEmoji.ttf",
+    "archive_type": "bare-binary",
+    "extract_dir": "",
+    "install_files": [
+      "NotoColorEmoji.ttf"
+    ]
+  },
+  "figma-linux": {
+    "name": "figma-linux",
+    "version": "0.11.6",
+    "description": "Figma desktop client for Linux",
+    "author": "figma-linux",
+    "license": "MIT",
+    "homepage": "https://github.com/nicholasgasior/figma-linux",
+    "dependencies": [],
+    "binary": "figma-linux",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/Figma-Linux/figma-linux/releases/download/v0.11.6/figma-linux_0.11.6_linux_x64.zip",
+    "archive_type": "zip",
+    "extract_dir": "",
+    "install_files": [
+      "figma-linux"
+    ]
+  },
+  "appimage-update": {
+    "name": "appimage-update",
+    "version": "2.0.0",
+    "description": "AppImage update utility",
+    "author": "AppImageCommunity",
+    "license": "MIT",
+    "homepage": "https://github.com/AppImageCommunity/AppImageUpdate",
+    "dependencies": [],
+    "binary": "appimageupdate",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/AppImageCommunity/AppImageUpdate/releases/download/continuous/AppImageUpdate-x86_64.AppImage",
+    "archive_type": "appimage",
+    "extract_dir": "",
+    "install_files": [
+      "AppImageUpdate-x86_64.AppImage"
+    ]
+  },
+  "bat-extras-batman": {
+    "name": "bat-extras-batman",
+    "version": "2024.10.20",
+    "description": "A bat-powered man page viewer",
+    "author": "eth-p",
+    "license": "MIT",
+    "homepage": "https://github.com/eth-p/bat-extras",
+    "dependencies": [
+      "bat"
+    ],
+    "binary": "batman",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/eth-p/bat-extras/releases/download/2024.10.20/bat-extras-2024.10.20-linux-x86_64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "bat-extras-2024.10.20-linux-x86_64",
+    "install_files": [
+      "bin/batman"
+    ]
+  },
+  "fselect": {
+    "name": "fselect",
+    "version": "0.8.0",
+    "description": "Find files with SQL-like queries",
+    "author": "jarv",
+    "license": "MIT",
+    "homepage": "https://github.com/jarv/fselect",
+    "dependencies": [],
+    "binary": "fselect",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/jarv/fselect/releases/download/0.8.0/fselect-0.8.0-linux-amd64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "fselect-0.8.0-linux-amd64"
+    ]
+  },
+  "rnote": {
+    "name": "rnote",
+    "version": "0.11.1",
+    "description": "A handwriting/drawing notetaking app",
+    "author": "flxzt",
+    "license": "GPL-3.0",
+    "homepage": "https://github.com/flxzt/rnote",
+    "dependencies": [],
+    "binary": "rnote",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/flxzt/rnote/releases/download/v0.11.1/rnote-v0.11.1-linux-x86_64.tar.xz",
+    "archive_type": "tar.xz",
+    "extract_dir": "rnote-v0.11.1-linux-x86_64",
+    "install_files": [
+      "bin/rnote"
+    ],
+    "install_full_dir": true
+  },
+  "marker": {
+    "name": "marker",
+    "version": "0.13.0",
+    "description": "Command-line highlighter for terminal text",
+    "author": "pindexis",
+    "license": "MIT",
+    "homepage": "https://github.com/pindexis/marker",
+    "dependencies": [],
+    "binary": "marker",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/pindexis/marker/releases/download/0.13.0/marker-linux-amd64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "marker"
+    ]
+  },
+  "mcfly": {
+    "name": "mcfly",
+    "version": "0.13.1",
+    "description": "An intuitive shell history search with ML ranking",
+    "author": "cantino",
+    "license": "MIT",
+    "homepage": "https://github.com/cantino/mcfly",
+    "dependencies": [],
+    "binary": "mcfly",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/cantino/mcfly/releases/download/v0.13.1/mcfly-v0.13.1-x86_64-unknown-linux-musl.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "mcfly-v0.13.1-x86_64-unknown-linux-musl",
+    "install_files": [
+      "mcfly"
+    ]
+  },
+  "atuin": {
+    "name": "atuin",
+    "version": "18.6.0",
+    "description": "Magical shell history with sync and search",
+    "author": "atuinsh",
+    "license": "MIT",
+    "homepage": "https://github.com/atuinsh/atuin",
+    "dependencies": [],
+    "binary": "atuin",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/atuinsh/atuin/releases/download/v18.6.0/atuin-v18.6.0-x86_64-unknown-linux-musl.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "atuin-v18.6.0-x86_64-unknown-linux-musl",
+    "install_files": [
+      "atuin"
+    ]
+  },
+  "nixpacks": {
+    "name": "nixpacks",
+    "version": "1.29.0",
+    "description": "App source + OS = Container images",
+    "author": "railwayapp",
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/railwayapp/nixpacks",
+    "dependencies": [],
+    "binary": "nixpacks",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/railwayapp/nixpacks/releases/download/v1.29.0/nixpacks-v1.29.0-x86_64-unknown-linux-gnu.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "nixpacks"
+    ]
+  },
+  "docker-compose": {
+    "name": "docker-compose",
+    "version": "2.32.4",
+    "description": "Define and run multi-container Docker applications",
+    "author": "docker",
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/docker/compose",
+    "dependencies": [],
+    "binary": "docker-compose",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/docker/compose/releases/download/v2.32.4/docker-compose-linux-x86_64",
+    "archive_type": "bare-binary",
+    "extract_dir": "",
+    "install_files": [
+      "docker-compose-linux-x86_64"
+    ]
+  },
+  "dive": {
+    "name": "dive",
+    "version": "0.12.0",
+    "description": "A tool for exploring each layer in a Docker image",
+    "author": "wagoodman",
+    "license": "MIT",
+    "homepage": "https://github.com/wagoodman/dive",
+    "dependencies": [],
+    "binary": "dive",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/wagoodman/dive/releases/download/v0.12.0/dive_0.12.0_linux_amd64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "dive"
+    ]
+  },
+  "trivy": {
+    "name": "trivy",
+    "version": "0.58.1",
+    "description": "Comprehensive vulnerability scanner for containers",
+    "author": "aquasecurity",
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/aquasecurity/trivy",
+    "dependencies": [],
+    "binary": "trivy",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/aquasecurity/trivy/releases/download/v0.58.1/trivy_0.58.1_Linux-64bit.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "trivy"
+    ]
+  },
+  "just": {
+    "name": "just",
+    "version": "1.38.0",
+    "description": "A handy way to save and run project-specific commands",
+    "author": "casey",
+    "license": "CC0-1.0",
+    "homepage": "https://github.com/casey/just",
+    "dependencies": [],
+    "binary": "just",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/casey/just/releases/download/1.38.0/just-1.38.0-x86_64-unknown-linux-musl.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "just"
+    ]
+  },
+  "watchexec": {
+    "name": "watchexec",
+    "version": "1.25.1",
+    "description": "Watches a path and runs a command when it changes",
+    "author": "watchexec",
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/watchexec/watchexec",
+    "dependencies": [],
+    "binary": "watchexec",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/watchexec/watchexec/releases/download/v1.25.1/watchexec-1.25.1-x86_64-unknown-linux-musl.tar.xz",
+    "archive_type": "tar.xz",
+    "extract_dir": "watchexec-1.25.1-x86_64-unknown-linux-musl",
+    "install_files": [
+      "watchexec"
+    ]
+  },
+  "turbo": {
+    "name": "turbo",
+    "version": "2.3.3",
+    "description": "Incremental bundler and build system",
+    "author": "vercel",
+    "license": "MIT",
+    "homepage": "https://github.com/vercel/turborepo",
+    "dependencies": [],
+    "binary": "turbo",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/vercel/turborepo/releases/download/v2.3.3/turbo-linux-x64.gz",
+    "archive_type": "gzip",
+    "extract_dir": "",
+    "install_files": [
+      "turbo"
+    ]
+  },
+  "biome": {
+    "name": "biome",
+    "version": "1.9.4",
+    "description": "One toolchain for your web project",
+    "author": "biomejs",
+    "license": "MIT",
+    "homepage": "https://biomejs.dev",
+    "dependencies": [],
+    "binary": "biome",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/biomejs/biome/releases/download/1.9.4/biome-linux-x86_64.zip",
+    "archive_type": "zip",
+    "extract_dir": "",
+    "install_files": [
+      "biome"
+    ]
+  },
+  "oxlint": {
+    "name": "oxlint",
+    "version": "0.15.7",
+    "description": "Oxidation Compiler - linter and formatter",
+    "author": "oxc-project",
+    "license": "MIT",
+    "homepage": "https://github.com/oxc-project/oxc",
+    "dependencies": [],
+    "binary": "oxlint",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/oxc-project/oxc/releases/download/oxlint_v0.15.7/oxlint-x86_64-unknown-linux-gnu.zip",
+    "archive_type": "zip",
+    "extract_dir": "",
+    "install_files": [
+      "oxlint"
+    ]
+  },
+  "knip": {
+    "name": "knip",
+    "version": "5.41.1",
+    "description": "Cut the clutter from TypeScript projects",
+    "author": "webpro",
+    "license": "ISC",
+    "homepage": "https://github.com/webpro/knip",
+    "dependencies": [],
+    "binary": "knip",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/webpro/knip/releases/download/5.41.1/knip-linux-x64",
+    "archive_type": "bare-binary",
+    "extract_dir": "",
+    "install_files": [
+      "knip-linux-x64"
+    ]
+  },
+  "eslint": {
+    "name": "eslint",
+    "version": "9.21.0",
+    "description": "Find and fix problems in JavaScript code",
+    "author": "eslint",
+    "license": "MIT",
+    "homepage": "https://eslint.org",
+    "dependencies": [],
+    "binary": "eslint",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/eslint/eslint/releases/download/9.21.0/eslint-9.21.0-linux-x64.tgz",
+    "archive_type": "tar.gz",
+    "extract_dir": "package",
+    "install_files": [
+      "bin/eslint.js"
+    ]
+  },
+  "prettier": {
+    "name": "prettier",
+    "version": "3.5.3",
+    "description": "Opinionated code formatter",
+    "author": "prettier",
+    "license": "MIT",
+    "homepage": "https://prettier.io",
+    "dependencies": [],
+    "binary": "prettier",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/prettier/prettier/releases/download/3.5.3/prettier-linux-musl.zip",
+    "archive_type": "zip",
+    "extract_dir": "",
+    "install_files": [
+      "prettier"
+    ]
+  },
+  "markdownlint-cli": {
+    "name": "markdownlint-cli",
+    "version": "0.43.0",
+    "description": "CommonMark and Markdownlint command line interface",
+    "author": "igorshubovych",
+    "license": "MIT",
+    "homepage": "https://github.com/igorshubovych/markdownlint-cli",
+    "dependencies": [],
+    "binary": "markdownlint",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/igorshubovych/markdownlint-cli/releases/download/v0.43.0/markdownlint-0.43.0-linux-x64.zip",
+    "archive_type": "zip",
+    "extract_dir": "",
+    "install_files": [
+      "markdownlint"
+    ]
+  },
+  "xo": {
+    "name": "xo",
+    "version": "0.60.0",
+    "description": "JavaScript happiness style linter",
+    "author": "xojs",
+    "license": "MIT",
+    "homepage": "https://github.com/xojs/xo",
+    "dependencies": [],
+    "binary": "xo",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/xojs/xo/releases/download/0.60.0/xo-linux-x64",
+    "archive_type": "bare-binary",
+    "extract_dir": "",
+    "install_files": [
+      "xo-linux-x64"
+    ]
+  },
+  "cspell": {
+    "name": "cspell",
+    "version": "8.17.3",
+    "description": "A spell checker for code",
+    "author": "streetsidesoftware",
+    "license": "MIT",
+    "homepage": "https://github.com/streetsidesoftware/cspell",
+    "dependencies": [],
+    "binary": "cspell",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/streetsidesoftware/cspell/releases/download/v8.17.3/cspell-linux-x64.zip",
+    "archive_type": "zip",
+    "extract_dir": "",
+    "install_files": [
+      "cspell"
+    ]
+  },
+  "markdown-to-html": {
+    "name": "markdown-to-html",
+    "version": "1.1.0",
+    "description": "Fastest markdown to HTML converter",
+    "author": "sneas",
+    "license": "MIT",
+    "homepage": "https://github.com/sneas/markdown-to-html",
+    "dependencies": [],
+    "binary": "md2html",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/sneas/markdown-to-html/releases/download/1.1.0/md2html-linux-amd64",
+    "archive_type": "bare-binary",
+    "extract_dir": "",
+    "install_files": [
+      "md2html-linux-amd64"
+    ]
+  },
+  "gojq": {
+    "name": "gojq",
+    "version": "0.12.17",
+    "description": "Pure Go implementation of jq",
+    "author": "itchyny",
+    "license": "MIT",
+    "homepage": "https://github.com/itchyny/gojq",
+    "dependencies": [],
+    "binary": "gojq",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/itchyny/gojq/releases/download/v0.12.17/gojq_v0.12.17_linux_amd64.zip",
+    "archive_type": "zip",
+    "extract_dir": "",
+    "install_files": [
+      "gojq"
+    ]
+  },
+  "gron": {
+    "name": "gron",
+    "version": "0.7.1",
+    "description": "Make JSON greppable",
+    "author": "tomnomnom",
+    "license": "MIT",
+    "homepage": "https://github.com/tomnomnom/gron",
+    "dependencies": [],
+    "binary": "gron",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/tomnomnom/gron/releases/download/v0.7.1/gron-linux-amd64-0.7.1.tgz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "gron"
+    ]
+  },
+  "fx": {
+    "name": "fx",
+    "version": "28.0.1",
+    "description": "Command-line JSON viewer",
+    "author": "antonmedv",
+    "license": "MIT",
+    "homepage": "https://github.com/antonmedv/fx",
+    "dependencies": [],
+    "binary": "fx",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/antonmedv/fx/releases/download/28.0.1/fx_linux_amd64.gz",
+    "archive_type": "gzip",
+    "extract_dir": "",
+    "install_files": [
+      "fx"
+    ]
+  },
+  "dasel": {
+    "name": "dasel",
+    "version": "2.0.3",
+    "description": "Query and modify data structures from the command line",
+    "author": "TomWright",
+    "license": "MIT",
+    "homepage": "https://github.com/TomWright/dasel",
+    "dependencies": [],
+    "binary": "dasel",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/TomWright/dasel/releases/download/v2.0.3/dasel_linux_amd64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "dasel"
+    ]
+  },
+  "jqview": {
+    "name": "jqview",
+    "version": "0.1.1",
+    "description": "Simple jq viewer with live updating",
+    "author": "fiatjaf",
+    "license": "MIT",
+    "homepage": "https://github.com/fiatjaf/jqview",
+    "dependencies": [],
+    "binary": "jqview",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/fiatjaf/jqview/releases/download/0.1.1/jqview-linux-amd64",
+    "archive_type": "bare-binary",
+    "extract_dir": "",
+    "install_files": [
+      "jqview-linux-amd64"
+    ]
+  },
+  "cis": {
+    "name": "cis",
+    "version": "1.4.0",
+    "description": "A CI Swiss army knife for GitHub Actions",
+    "author": "k1LoW",
+    "license": "MIT",
+    "homepage": "https://github.com/k1LoW/cis",
+    "dependencies": [],
+    "binary": "cis",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/k1LoW/cis/releases/download/v1.4.0/cis_linux_amd64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "cis"
+    ]
+  },
+  "timeplot": {
+    "name": "timeplot",
+    "version": "0.7.1",
+    "description": "Command line tool to plot time series data",
+    "author": "dmarkle",
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/dmarkle/timeplot",
+    "dependencies": [],
+    "binary": "timeplot",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/dmarkle/timeplot/releases/download/0.7.1/timeplot-0.7.1-linux-amd64",
+    "archive_type": "bare-binary",
+    "extract_dir": "",
+    "install_files": [
+      "timeplot-0.7.1-linux-amd64"
+    ]
+  },
+  "docker": {
+    "name": "docker",
+    "version": "27.5.1",
+    "description": "Docker CLI client",
+    "author": "docker",
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/docker/cli",
+    "dependencies": [],
+    "binary": "docker",
+    "platform": "linux-x86_64",
+    "url": "https://download.docker.com/linux/static/stable/x86_64/docker-27.5.1.tgz",
+    "archive_type": "tar.gz",
+    "extract_dir": "docker",
+    "install_files": [
+      "docker"
+    ]
+  },
+  "kubectl": {
+    "name": "kubectl",
+    "version": "1.32.3",
+    "description": "Kubernetes command-line tool",
+    "author": "kubernetes",
+    "license": "Apache-2.0",
+    "homepage": "https://kubernetes.io/docs/reference/kubectl",
+    "dependencies": [],
+    "binary": "kubectl",
+    "platform": "linux-x86_64",
+    "url": "https://dl.k8s.io/release/v1.32.3/bin/linux/amd64/kubectl",
+    "archive_type": "bare-binary",
+    "extract_dir": "",
+    "install_files": [
+      "kubectl"
+    ]
+  },
+  "helm": {
+    "name": "helm",
+    "version": "3.17.1",
+    "description": "The package manager for Kubernetes",
+    "author": "helm",
+    "license": "Apache-2.0",
+    "homepage": "https://helm.sh",
+    "dependencies": [],
+    "binary": "helm",
+    "platform": "linux-x86_64",
+    "url": "https://get.helm.sh/helm-v3.17.1-linux-amd64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "linux-amd64",
+    "install_files": [
+      "helm"
+    ]
+  },
+  "terraform": {
+    "name": "terraform",
+    "version": "1.11.1",
+    "description": "Infrastructure as code tool",
+    "author": "hashicorp",
+    "license": "BSL-1.1",
+    "homepage": "https://www.terraform.io",
+    "dependencies": [],
+    "binary": "terraform",
+    "platform": "linux-x86_64",
+    "url": "https://releases.hashicorp.com/terraform/1.11.1/terraform_1.11.1_linux_amd64.zip",
+    "archive_type": "zip",
+    "extract_dir": "",
+    "install_files": [
+      "terraform"
+    ]
+  },
+  "packer": {
+    "name": "packer",
+    "version": "1.11.2",
+    "description": "Build automated machine images",
+    "author": "hashicorp",
+    "license": "BSL-1.1",
+    "homepage": "https://www.packer.io",
+    "dependencies": [],
+    "binary": "packer",
+    "platform": "linux-x86_64",
+    "url": "https://releases.hashicorp.com/packer/1.11.2/packer_1.11.2_linux_amd64.zip",
+    "archive_type": "zip",
+    "extract_dir": "",
+    "install_files": [
+      "packer"
+    ]
+  },
+  "vault": {
+    "name": "vault",
+    "version": "1.18.3",
+    "description": "A tool for managing secrets",
+    "author": "hashicorp",
+    "license": "BSL-1.1",
+    "homepage": "https://www.vaultproject.io",
+    "dependencies": [],
+    "binary": "vault",
+    "platform": "linux-x86_64",
+    "url": "https://releases.hashicorp.com/vault/1.18.3/vault_1.18.3_linux_amd64.zip",
+    "archive_type": "zip",
+    "extract_dir": "",
+    "install_files": [
+      "vault"
+    ]
+  },
+  "consul": {
+    "name": "consul",
+    "version": "1.20.3",
+    "description": "Service mesh and service discovery",
+    "author": "hashicorp",
+    "license": "BSL-1.1",
+    "homepage": "https://www.consul.io",
+    "dependencies": [],
+    "binary": "consul",
+    "platform": "linux-x86_64",
+    "url": "https://releases.hashicorp.com/consul/1.20.3/consul_1.20.3_linux_amd64.zip",
+    "archive_type": "zip",
+    "extract_dir": "",
+    "install_files": [
+      "consul"
+    ]
+  },
+  "nomad": {
+    "name": "nomad",
+    "version": "1.9.5",
+    "description": "Workload orchestrator for any infrastructure",
+    "author": "hashicorp",
+    "license": "BSL-1.1",
+    "homepage": "https://www.nomadproject.io",
+    "dependencies": [],
+    "binary": "nomad",
+    "platform": "linux-x86_64",
+    "url": "https://releases.hashicorp.com/nomad/1.9.5/nomad_1.9.5_linux_amd64.zip",
+    "archive_type": "zip",
+    "extract_dir": "",
+    "install_files": [
+      "nomad"
+    ]
+  },
+  "minikube": {
+    "name": "minikube",
+    "version": "1.35.0",
+    "description": "Local Kubernetes for learning and development",
+    "author": "kubernetes",
+    "license": "Apache-2.0",
+    "homepage": "https://minikube.sigs.k8s.io",
+    "dependencies": [],
+    "binary": "minikube",
+    "platform": "linux-x86_64",
+    "url": "https://storage.googleapis.com/minikube/releases/v1.35.0/minikube-linux-amd64",
+    "archive_type": "bare-binary",
+    "extract_dir": "",
+    "install_files": [
+      "minikube-linux-amd64"
+    ]
+  },
+  "kubectx": {
+    "name": "kubectx",
+    "version": "0.9.5",
+    "description": "Switch between Kubernetes contexts",
+    "author": "ahmetb",
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/ahmetb/kubectx",
+    "dependencies": [],
+    "binary": "kubectx",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/ahmetb/kubectx/releases/download/v0.9.5/kubectx_v0.9.5_linux_x86_64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "kubectx"
+    ]
+  },
+  "kubens": {
+    "name": "kubens",
+    "version": "0.9.5",
+    "description": "Switch between Kubernetes namespaces",
+    "author": "ahmetb",
+    "license": "Apache-2.0",
+    "homepage": "https://github.com/ahmetb/kubectx",
+    "dependencies": [],
+    "binary": "kubens",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/ahmetb/kubectx/releases/download/v0.9.5/kubens_v0.9.5_linux_x86_64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "kubens"
+    ]
+  },
+  "velero": {
+    "name": "velero",
+    "version": "1.15.2",
+    "description": "Backup and migrate Kubernetes resources",
+    "author": "vmware-tanzu",
+    "license": "Apache-2.0",
+    "homepage": "https://velero.io",
+    "dependencies": [],
+    "binary": "velero",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/vmware-tanzu/velero/releases/download/v1.15.2/velero-v1.15.2-linux-amd64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "velero-v1.15.2-linux-amd64",
+    "install_files": [
+      "velero"
+    ]
+  },
+  "flux": {
+    "name": "flux",
+    "version": "2.6.1",
+    "description": "GitOps toolkit for Kubernetes",
+    "author": "fluxcd",
+    "license": "Apache-2.0",
+    "homepage": "https://fluxcd.io",
+    "dependencies": [],
+    "binary": "flux",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/fluxcd/flux2/releases/download/v2.6.1/flux_2.6.1_linux_amd64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "flux"
+    ]
+  },
+  "lazyssh": {
+    "name": "lazyssh",
+    "version": "0.1.0",
+    "description": "Interactive SSH session manager",
+    "author": "bjornmagnusson",
+    "license": "MIT",
+    "homepage": "https://github.com/bjornmagnusson/lazyssh",
+    "dependencies": [],
+    "binary": "lazyssh",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/bjornmagnusson/lazyssh/releases/download/v0.1.0/lazyssh-linux-amd64",
+    "archive_type": "bare-binary",
+    "extract_dir": "",
+    "install_files": [
+      "lazyssh-linux-amd64"
+    ]
+  },
+  "dive-vm": {
+    "name": "dive-vm",
+    "version": "0.12.0",
+    "description": "Docker image layer explorer",
+    "author": "wagoodman",
+    "license": "MIT",
+    "homepage": "https://github.com/wagoodman/dive",
+    "dependencies": [],
+    "binary": "dive",
+    "platform": "linux-x86_64",
+    "url": "https://github.com/wagoodman/dive/releases/download/v0.12.0/dive_0.12.0_linux_amd64.tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "",
+    "install_files": [
+      "dive"
+    ]
+  },
+  "discord": {
+    "name": "discord",
+    "version": "1.0.154",
+    "description": "All-in-one voice, video and text chat",
+    "author": "Discord Inc.",
+    "license": "Proprietary",
+    "homepage": "https://discord.com",
+    "dependencies": [],
+    "binary": "discord",
+    "platform": "linux-x86_64",
+    "url": "https://discord.com/api/download/stable?platform=linux&format=tar.gz",
+    "archive_type": "tar.gz",
+    "extract_dir": "Discord",
+    "install_files": [
+      "Discord"
+    ],
+    "install_full_dir": true
+  },
+  "steam": {
+    "name": "steam",
+    "version": "latest",
+    "description": "Valve Steam Client for Linux",
+    "author": "Valve Corporation",
+    "license": "Proprietary",
+    "homepage": "https://store.steampowered.com",
+    "dependencies": [],
+    "binary": "usr/bin/steam",
+    "platform": "linux-x86_64",
+    "url": "https://cdn.akamai.steamstatic.com/client/installer/steam.deb",
+    "archive_type": "deb",
+    "extract_dir": "",
+    "install_files": [
+      "usr/bin/steam",
+      "usr/lib/steam/"
+    ],
+    "install_full_dir": true
   }
 }
