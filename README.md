@@ -5,9 +5,9 @@ A simple package manager that downloads real binaries from GitHub releases
 ## Install
 
 ```sh
-git clone https://github.com/Kacp3rxk/frost.git
+git clone https://github.com/Kacp3rxk/frost-package-manager.git
 cd frost
-chmod +x frost
+chmod +x frost.py
 export PATH="$PWD:$HOME/.local/bin:$PATH"
 ```
 

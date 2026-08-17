@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import Dict, List, Optional
 from dataclasses import dataclass, asdict
 from datetime import datetime
-from concurrent.futures import ThreadPoolExecutor, as_completed
+
 
 # -- Colors --
 class Colors:
@@ -143,6 +143,20 @@ BIN_DIR = INSTALL_DIR / "bin"
 CACHE_DIR = CONFIG_DIR / "cache"
 LOG_FILE = CONFIG_DIR / "frost.log"
 
+VERSION = "0.2.0"
+
+ARCHIVE_EXTENSIONS = {
+    "tar.gz": ".tar.gz",
+    "tar.xz": ".tar.xz",
+    "tar.bz2": ".tar.bz2",
+    "bzip2": ".bz2",
+    "gzip": ".gz",
+    "zip": ".zip",
+    "deb": ".deb",
+    "bare-binary": "",
+    "appimage": ".AppImage",
+}
+
 @dataclass
 class Package:
     name: str
@@ -264,19 +278,27 @@ class Frost:
                 dest.unlink()
             return False
 
+    def _safe_extract_tar(self, tar: tarfile.TarFile, dest: Path):
+        for member in tar.getmembers():
+            member_path = (dest / member.name).resolve()
+            if not str(member_path).startswith(str(dest.resolve())):
+                error(f"Refusing to extract {member.name}: path traversal detected")
+                continue
+            tar.extract(member, dest)
+
     def _extract(self, archive_path: Path, extract_dir: Path, archive_type: str, inner_dir: str) -> bool:
         try:
             step(f"Extracting {archive_path.name}...")
 
             if archive_type == "tar.gz":
                 with tarfile.open(archive_path, 'r:gz') as tar:
-                    tar.extractall(extract_dir)
+                    self._safe_extract_tar(tar, extract_dir)
             elif archive_type == "tar.xz":
                 with tarfile.open(archive_path, 'r:xz') as tar:
-                    tar.extractall(extract_dir)
+                    self._safe_extract_tar(tar, extract_dir)
             elif archive_type == "tar.bz2":
                 with tarfile.open(archive_path, 'r:bz2') as tar:
-                    tar.extractall(extract_dir)
+                    self._safe_extract_tar(tar, extract_dir)
             elif archive_type == "bzip2":
                 out_path = extract_dir / archive_path.stem
                 with bz2.open(archive_path, 'rb') as f_in:
@@ -306,7 +328,7 @@ class Frost:
                     data_tar = extract_dir / "data.tar.gz"
                 if data_tar.exists():
                     with tarfile.open(data_tar, 'r:xz' if data_tar.suffix == '.xz' else 'r:gz') as tar:
-                        tar.extractall(extract_dir)
+                        self._safe_extract_tar(tar, extract_dir)
                     data_tar.unlink(missing_ok=True)
                     for f in ['control.tar.xz', 'control.tar.gz', 'debian-binary']:
                         (extract_dir / f).unlink(missing_ok=True)
@@ -358,18 +380,12 @@ class Frost:
             error(f"Package {highlight(package_name)} not found")
             return False
 
-        # Auto-install dependencies
-        for dep in package.dependencies:
-            if dep not in self.installed:
-                if dep in self.registry:
-                    info(f"Installing dependency: {dep}")
-                    if not self.freeze(dep, force=False, skip_confirm=True):
-                        warn(f"Failed to install dependency: {dep}")
-                else:
-                    warn(f"Missing dependency: {dep}")
+        if not self._install_deps(package_name):
+            return False
 
         # Download
-        archive_path = CACHE_DIR / f"{package_name}.{package.archive_type}"
+        ext = ARCHIVE_EXTENSIONS.get(package.archive_type, f".{package.archive_type}")
+        archive_path = CACHE_DIR / f"{package_name}{ext}"
         step(f"Downloading {package.name} v{package.version}...")
 
         if not self._download(package.url, archive_path):
@@ -497,16 +513,18 @@ class Frost:
 
     def upgrade(self, package_name: str = None) -> bool:
         if package_name:
-            # Upgrade single package
             if package_name not in self.installed:
                 error(f"'{package_name}' is not frozen")
                 return False
-            inst = self.installed[package_name]
             step(f"Upgrading {package_name}...")
+            old = self.installed[package_name]
             self.melt(package_name)
-            return self.freeze(package_name, force=True, skip_confirm=True)
+            if not self.freeze(package_name, force=True, skip_confirm=True):
+                error(f"Upgrade failed, attempting to restore {package_name}...")
+                self.freeze(package_name, force=True, skip_confirm=True)
+                return False
+            return True
         else:
-            # Upgrade all
             installed = self.list_installed()
             if not installed:
                 info("No packages to upgrade")
@@ -518,9 +536,16 @@ class Frost:
             for inst in installed:
                 name = inst.package.name
                 print()
+                old = self.installed.get(name)
+                self.melt(name)
                 if self.freeze(name, force=True, skip_confirm=True):
                     upgraded += 1
                 else:
+                    error(f"Upgrade failed for {name}, attempting to restore...")
+                    if old:
+                        self.installed[name] = old
+                        self._save_installed()
+                        self.freeze(name, force=True, skip_confirm=True)
                     failed += 1
 
             print()
@@ -570,6 +595,10 @@ def print_usage():
 
 def main():
     global QUIET, AUTO_YES
+
+    if '--version' in sys.argv or '-v' in sys.argv:
+        print(f"frost {VERSION}")
+        sys.exit(0)
 
     # Parse global flags
     args = [a for a in sys.argv[1:] if not a.startswith('-')]
