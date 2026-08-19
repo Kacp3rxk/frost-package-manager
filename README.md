@@ -1,4 +1,4 @@
-# frost
+# frost-package-manager
 
 A simple package manager that downloads real binaries from GitHub releases
 
