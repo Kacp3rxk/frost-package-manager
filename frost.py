@@ -698,7 +698,12 @@ def main():
         package_name = args[1]
 
         if package_name not in frost.installed:
-            error(f"'{package_name}' is not frozen")
+            import shutil as _shutil
+            if _shutil.which(package_name):
+                warn(f"'{package_name}' is installed but not by frost")
+                warn(f"Use 'sudo pacman -R {package_name}' to remove it")
+            else:
+                error(f"'{package_name}' is not frozen")
             sys.exit(1)
 
         if not AUTO_YES:
